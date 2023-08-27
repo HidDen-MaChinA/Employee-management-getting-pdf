@@ -51,8 +51,12 @@ public class EmployeeController {
         return "redirect:/employees";
     }
     @GetMapping("/employee/pdf/{employee}")
-    public void getPdf(@PathVariable String employee, HttpServletResponse response) throws DocumentException,IOException {
+    public String getPdf(@PathVariable String employee, HttpServletResponse response,HttpSession session) throws DocumentException,IOException {
+        if(replicate.verify(session)){
+            return "redirect:/login";
+        }
         facade.getPdf(employee,response.getOutputStream());
+        return null;
     }
     @PostMapping("/save")
     public String Save(@ModelAttribute("employee") SaveEmployee employee,HttpSession session,User user) throws IOException,Exception{
