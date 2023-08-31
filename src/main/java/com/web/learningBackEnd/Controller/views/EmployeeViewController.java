@@ -1,5 +1,6 @@
 package com.web.learningBackEnd.Controller.views;
 
+import com.web.learningBackEnd.Controller.EmployeeController;
 import com.web.learningBackEnd.Controller.utils.InputFormat;
 import com.web.learningBackEnd.Controller.utils.ReplicateFunction;
 import com.web.learningBackEnd.Model.entity.db_test.CountryCode;
@@ -7,6 +8,7 @@ import com.web.learningBackEnd.Model.entity.db_test.User;
 import com.web.learningBackEnd.Model.request.SaveEmployee;
 import com.web.learningBackEnd.Model.request.UserLogin;
 import com.web.learningBackEnd.Service.facade.EmployeeManagementFacade;
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -34,11 +37,11 @@ public class EmployeeViewController {
         return "employees";
     }
     @GetMapping("/employee/{matricule}")
-    public String GetUser(Model model, @PathVariable String matricule, HttpSession session) {
+    public String GetUser(Model model, @PathVariable String matricule, HttpSession session, @RequestParam @Nullable EmployeeController.Year year) {
         if(replicate.verify(session)){
             return "redirect:/login";
         }
-        model.addAttribute("employee",facade.getEmployeeDetails(matricule));
+        model.addAttribute("employee",facade.getEmployeeDetails(matricule,year));
         return "employee";
     }
     @GetMapping("/addEmployee")

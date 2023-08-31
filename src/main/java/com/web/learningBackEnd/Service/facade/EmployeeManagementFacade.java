@@ -1,6 +1,7 @@
 package com.web.learningBackEnd.Service.facade;
 
 import com.lowagie.text.DocumentException;
+import com.web.learningBackEnd.Controller.EmployeeController;
 import com.web.learningBackEnd.Controller.utils.InputFormat;
 import com.web.learningBackEnd.Controller.utils.UserInformation;
 import com.web.learningBackEnd.Mapper.UserInformationMapper;
@@ -29,8 +30,8 @@ public interface EmployeeManagementFacade {
 
     User SignIn(UserLogin input);
     String ManageEmployee(SaveEmployee input) throws IOException;
-    RequestedEmployee getEmployeeDetails(String matricule);
+    RequestedEmployee getEmployeeDetails(String matricule, EmployeeController.Year year);
     CountryCodeRepository getcountryCodeInstance();
     User authentifyUser(HttpSession input);
-    void getPdf(String user, OutputStream outputStream) throws DocumentException, MalformedURLException;
+    void getPdf(String user, OutputStream outputStream, EmployeeController.Year year) throws DocumentException, MalformedURLException;
 }

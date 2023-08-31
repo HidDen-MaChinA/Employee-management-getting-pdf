@@ -12,9 +12,7 @@ import com.web.learningBackEnd.Service.facade.EmployeeManagementFacade;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,12 +48,15 @@ public class EmployeeController {
         }
         return "redirect:/employees";
     }
+    public enum Year{
+        BIRTHDAY,YEAR_ONLY
+    }
     @GetMapping("/employee/pdf/{employee}")
-    public String getPdf(@PathVariable String employee, HttpServletResponse response,HttpSession session) throws DocumentException,IOException {
+    public String getPdf(@PathVariable String employee, @RequestParam("year") @Nullable Year year, HttpServletResponse response, HttpSession session) throws DocumentException,IOException {
         if(replicate.verify(session)){
             return "redirect:/login";
         }
-        facade.getPdf(employee,response.getOutputStream());
+        facade.getPdf(employee,response.getOutputStream(),year);
         return null;
     }
     @PostMapping("/save")

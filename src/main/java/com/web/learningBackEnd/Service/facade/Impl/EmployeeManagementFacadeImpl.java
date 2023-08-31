@@ -1,6 +1,7 @@
 package com.web.learningBackEnd.Service.facade.Impl;
 
 import com.lowagie.text.DocumentException;
+import com.web.learningBackEnd.Controller.EmployeeController;
 import com.web.learningBackEnd.Controller.utils.InputFormat;
 import com.web.learningBackEnd.Controller.utils.UserInformation;
 import com.web.learningBackEnd.Mapper.EmployeeMapper;
@@ -84,8 +85,8 @@ public class EmployeeManagementFacadeImpl implements EmployeeManagementFacade {
 
     @Override
     @Primary
-    public RequestedEmployee getEmployeeDetails(String matricule) {
-        return service.getEmployeeByMatricule(matricule);
+    public RequestedEmployee getEmployeeDetails(String matricule, EmployeeController.Year year) {
+        return service.getEmployeeByMatricule(matricule,year);
     }
 
     @Override
@@ -100,7 +101,7 @@ public class EmployeeManagementFacadeImpl implements EmployeeManagementFacade {
     }
 
     @Override
-    public void getPdf(String matricule, OutputStream outputStream) throws DocumentException, MalformedURLException {
+    public void getPdf(String matricule, OutputStream outputStream, EmployeeController.Year year) throws DocumentException, MalformedURLException {
         System.out.println("arrived int the facade");
         CompanyInformation companyInformation = companyInformationRepository.findAll().get(0);
         RequestedCompanyInformation insert = RequestedCompanyInformation.builder()
@@ -113,7 +114,7 @@ public class EmployeeManagementFacadeImpl implements EmployeeManagementFacade {
                 .email(companyInformation.getEmail())
                 .companySlogan(companyInformation.getCompanySlogan())
                 .build();
-        RequestedEmployee employee = service.getEmployeeByMatricule(matricule);
+        RequestedEmployee employee = service.getEmployeeByMatricule(matricule,year);
         System.out.println("the employee is here : "+employee.getFirstName());
         String html = pdfGeneratingService.parseThymeleafTemplate(employee,insert);
         System.out.println(html);

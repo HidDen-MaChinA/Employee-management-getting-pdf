@@ -1,5 +1,6 @@
 package com.web.learningBackEnd.Mapper;
 
+import com.web.learningBackEnd.Controller.EmployeeController;
 import com.web.learningBackEnd.Mapper.utils.ConvertDate;
 import com.web.learningBackEnd.Mapper.utils.PhoneNumberUtils;
 import com.web.learningBackEnd.Mapper.utils.RandomString;
@@ -58,7 +59,7 @@ public class EmployeeMapper {
             return null;
         }
     }
-    public RequestedEmployee toRest(Employee input) {
+    public RequestedEmployee toRest(Employee input, EmployeeController.Year year) {
         return RequestedEmployee.builder()
                 .address(input.getAddress())
                 .birthDate(input.getBirthDate())
@@ -74,6 +75,7 @@ public class EmployeeMapper {
                 .lastName(input.getLastName())
                 .phoneNumberList(input.getPhonenumber())
                 .sex(input.getSex())
+                .year(year)
                 .matricule(input.getMatricule())
                 .photo(Base64.getEncoder().encodeToString(input.getPhoto()))
                 .build();
